@@ -1,21 +1,27 @@
 from stats import *
+import sys
 
 
 
 def get_book_text(filepath):
-    with open(filepath) as f:
+    if len(filepath) != 2:
+        raise Exception("Usage: python3 main.py <path_to_book>")
+    with open(filepath[1]) as f:
         file_contents = f.read()
     return file_contents
 
 
 
 def main():
-    text = get_book_text("/home/chatraxis/bookbot/books/frankenstein.txt")
+    try:
+        text = get_book_text(sys.argv)
+    except Exception as e:
+        print(e)
     num_words = count_words(text)
     #print(count_characters(text))
     dict_list = order_dict(count_characters(text))
     print("============ BOOKBOT ============")
-    print("Analyzing book found at books/frankenstein.txt...")
+    print(f"Analyzing book found at {sys.argv[1]}...")
     print("----------- Word Count ----------")
     print(f"Found {num_words} total words")
     print("--------- Character Count -------")
